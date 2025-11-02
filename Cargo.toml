@@ -1,0 +1,74 @@
+[workspace]
+members = ["crates/crane_core", "crates/scene_3d", "crates/ui_layer"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.90"
+
+[workspace.dependencies]
+bevy = { version = "0.17.2", default-features = false }
+# avian3d = "0.4.0"
+nalgebra = "0.34.1"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+ron = "0.11.0"
+log = "0.4.28"
+env_logger = "0.11.8"
+
+
+[package]
+name = "_2block"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+bevy = { workspace = true, default-features = false, features = [
+  "bevy_asset",
+  "bevy_scene",
+  "bevy_winit",
+  "bevy_render",
+  "bevy_core_pipeline",
+  "tonemapping_luts",
+  "bevy_pbr",
+  "bevy_gltf",
+  "bevy_ui",
+  "bevy_text",
+  "bevy_color",
+  "multi_threaded",
+  "png",
+  "x11",
+  "wayland",
+  "zstd_rust",
+] }
+log = { workspace = true }
+env_logger = { workspace = true }
+# bevy_egui = { workspace = true }
+# avian3d = { workspace = true }
+crane_core = { path = "crates/crane_core" }
+scene_3d = { path = "crates/scene_3d" }
+ui_layer = { path = "crates/ui_layer" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.104"
+web-sys = { version = "0.3.81", features = ["Window", "Document"] }
+console_error_panic_hook = "0.1.7"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"

@@ -1,0 +1,28 @@
+{
+  "charts": [
+    {
+      "boom_length_m": 30.0,
+      "notes": "Fully extended outriggers, 360° operation",
+      "points": [
+        { "radius_m": 3.0, "capacity_kg": 100000 },
+        { "radius_m": 5.0, "capacity_kg": 80000 },
+        { "radius_m": 10.0, "capacity_kg": 40000 },
+        { "radius_m": 15.0, "capacity_kg": 25000 },
+        { "radius_m": 20.0, "capacity_kg": 15000 },
+        { "radius_m": 25.0, "capacity_kg": 10000 }
+      ]
+    },
+    {
+      "boom_length_m": 40.0,
+      "notes": "Fully extended outriggers, 360° operation",
+      "points": [
+        { "radius_m": 3.0, "capacity_kg": 90000 },
+        { "radius_m": 5.0, "capacity_kg": 70000 },
+        { "radius_m": 10.0, "capacity_kg": 35000 },
+        { "radius_m": 20.0, "capacity_kg": 12000 },
+        { "radius_m": 30.0, "capacity_kg": 7000 },
+        { "radius_m": 35.0, "capacity_kg": 5000 }
+      ]
+    }
+  ]
+}

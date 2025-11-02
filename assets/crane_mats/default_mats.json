@@ -1,0 +1,45 @@
+{
+  "wood_mats": [
+    {
+      "id": "oak_3x1x0.15",
+      "material": {
+        "Wood": { "species": "Oak" }
+      },
+      "length_m": 3.0,
+      "width_m": 1.0,
+      "thickness_m": 0.15,
+      "weight_kg": 250.0,
+      "stacked_count": 1
+    }
+  ],
+  "steel_mats": [
+    {
+      "id": "steel_3x1x0.025",
+      "material": {
+        "Steel": { "thickness_mm": 25.0 }
+      },
+      "length_m": 3.0,
+      "width_m": 1.0,
+      "thickness_m": 0.025,
+      "weight_kg": 588.0,
+      "stacked_count": 1
+    }
+  ],
+  "engineered_pads": [
+    {
+      "id": "dica_ultramax",
+      "material": {
+        "EngineeredPad": {
+          "manufacturer": "DICA",
+          "model": "UltraMAX",
+          "rated_capacity_kn": 1780.0
+        }
+      },
+      "length_m": 1.22,
+      "width_m": 1.22,
+      "thickness_m": 0.089,
+      "weight_kg": 68.0,
+      "stacked_count": 1
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[package]
+name = "ui_layer"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+bevy = { workspace = true, default-features = false, features = [
+  "bevy_ui",
+  "bevy_text",
+] }
+# bevy_egui = { workspace = true }
+crane_core = { path = "../crane_core" }
+scene_3d = { path = "../scene_3d" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+nalgebra = { workspace = true }
