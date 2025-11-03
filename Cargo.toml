@@ -9,6 +9,10 @@ rust-version = "1.90"
 
 [workspace.dependencies]
 bevy = { version = "0.17.2", default-features = false }
+bevy_egui = "0.38.0"
+# egui = { version = "0.33.0", features = ["serde", "accesskit", "color-hex"] }
+# egui-wgpu = "0.33.0"
+# egui-winit = "0.33.0"
 # avian3d = "0.4.0"
 nalgebra = "0.34.1"
 serde = { version = "1.0.228", features = ["derive"] }
@@ -43,6 +47,7 @@ bevy = { workspace = true, default-features = false, features = [
   "wayland",
   "zstd_rust",
 ] }
+bevy_egui = { workspace = true }
 log = { workspace = true }
 env_logger = { workspace = true }
 # bevy_egui = { workspace = true }

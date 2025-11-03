@@ -1,5 +1,3 @@
-//! Touch input handler - converts gestures to navigation commands
-
 use super::gesture_recognizer::{GestureState, GestureType};
 use super::navigation_command::{NavigationCommand, NavigationState};
 use bevy::input::touch::Touches;

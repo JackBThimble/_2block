@@ -2,10 +2,12 @@
 
 use bevy::prelude::*;
 use scene_3d::Scene3DPlugin;
+use ui_layer::UiLayerPlugin;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(Scene3DPlugin)
+        .add_plugins(UiLayerPlugin)
         .run();
 }

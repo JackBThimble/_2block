@@ -237,6 +237,7 @@ pub fn spawn_crane(
             meshes,
             counterweight_material,
             &crane_config.counterweight,
+            body_height,
             crane_entity,
         );
 
@@ -317,6 +318,7 @@ fn spawn_counterweight(
     meshes: &mut ResMut<Assets<Mesh>>,
     material: Handle<StandardMaterial>,
     counterweight: &crane_core::CounterweightConfig,
+    counterweight_offset: f32,
     parent: Entity,
 ) {
     let slab_height = 0.5;
@@ -329,7 +331,7 @@ fn spawn_counterweight(
         // Stack slabs vertically behind crane
         let pos = Vec3::new(
             0.0,
-            0.25 + i as f32 * slab_height,
+            0.25 + i as f32 * slab_height + counterweight_offset,
             -counterweight.moment_arm_m,
         );
 

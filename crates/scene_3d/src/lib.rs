@@ -25,12 +25,24 @@ pub struct Scene3DPlugin;
 impl Plugin for Scene3DPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<SceneState>()
-            .add_plugins(camera::CameraPlugin)
-            .add_plugins(input::Scene3dInputPlugin)
-            .add_systems(Startup, (setup_scene, spawn_test_scene).chain())
+            .init_resource::<CameraController>()
+            .init_resource::<InteractionState>();
+        app.add_plugins(input::Scene3dInputPlugin)
+            .add_systems(
+                Startup,
+                (
+                    setup::setup_scene,
+                    test_scene::spawn_test_scene,
+                    camera::camera_controller::setup_orbit_camera,
+                )
+                    .chain(),
+            )
             .add_systems(
                 Update,
                 (
+                    camera::camera_controller::update_camera_transform,
+                    camera::camera_controller::apply_camera_momentum,
+                    camera::camera_controller::camera_preset_views,
                     // Crane updates
                     crane_renderer::update_crane_visuals_system,
                     // Load updates

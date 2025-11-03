@@ -21,7 +21,7 @@ pub struct OrbitCamera {
     /// Sensitivity settings
     pub orbit_sensitivity: f32,
     pub pan_sensitivity: f32,
-    pub _zoom_sensitivity: f32,
+    pub zoom_sensitivity: f32,
 
     /// Constraints
     pub min_distance: f32,
@@ -54,12 +54,12 @@ impl Default for OrbitCamera {
     fn default() -> Self {
         Self {
             target: Vec3::ZERO,
-            distance: 20.0,
-            yaw: std::f32::consts::FRAC_PI_4,
-            pitch: std::f32::consts::FRAC_PI_4,
+            distance: 80.0,
+            yaw: std::f32::consts::FRAC_PI_6,
+            pitch: -std::f32::consts::FRAC_PI_4,
             orbit_sensitivity: 0.005,
             pan_sensitivity: 0.002,
-            _zoom_sensitivity: 0.1,
+            zoom_sensitivity: 0.1,
             min_distance: 1.0,
             max_distance: 1000.0,
             min_pitch: -0.2, // Allow slight over-rotation
@@ -72,7 +72,7 @@ impl Default for OrbitCamera {
             damping: 0.90, // 90% retention = smooth, 0.8 = snappier
             min_velocity: 0.01,
 
-            clamp_mode: ClampMode::Relaxed, // Best for crane sim
+            clamp_mode: ClampMode::Free, // Best for crane sim
         }
     }
 }

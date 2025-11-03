@@ -75,9 +75,6 @@ impl GestureState {
     /// Update gesture state with current touch input
     /// Returns recognized gesture if any
     pub fn update(&mut self, touches: &Touches, current_time: f32) -> Option<RecognizedGesture> {
-        // ====================================================================
-        // HANDLE JUST PRESSED TOUCHES
-        // ====================================================================
         for touch in touches.iter_just_pressed() {
             self.active_touches.insert(
                 touch.id(),
@@ -85,14 +82,11 @@ impl GestureState {
                     position: touch.position(),
                     start_position: touch.start_position(),
                     start_time: current_time,
-                    previous_position: touch.position(),
+                    previous_position: touch.previous_position(),
                 },
             );
         }
 
-        // ====================================================================
-        // UPDATE MOVED TOUCHES
-        // ====================================================================
         for touch in touches.iter() {
             if let Some(point) = self.active_touches.get_mut(&touch.id()) {
                 point.previous_position = point.position;
@@ -100,9 +94,6 @@ impl GestureState {
             }
         }
 
-        // ====================================================================
-        // HANDLE JUST RELEASED TOUCHES
-        // ====================================================================
         for touch in touches.iter_just_released() {
             if let Some(point) = self.active_touches.remove(&touch.id()) {
                 // Check if this was a tap

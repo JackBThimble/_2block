@@ -7,8 +7,11 @@ edition.workspace = true
 bevy = { workspace = true, default-features = false, features = [
   "bevy_ui",
   "bevy_text",
+  "bevy_input_focus",
+  "default_font",
 ] }
-# bevy_egui = { workspace = true }
+bevy_egui = { workspace = true }
+log = { workspace = true }
 crane_core = { path = "../crane_core" }
 scene_3d = { path = "../scene_3d" }
 serde = { workspace = true }

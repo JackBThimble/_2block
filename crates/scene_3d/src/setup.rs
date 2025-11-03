@@ -8,7 +8,7 @@ pub fn setup_scene(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // Ground plane (Bevy 0.17: Plane 3d is now a primitive)
-    let ground_size = 100.0;
+    let ground_size = 10000.0;
     let ground_mesh = meshes.add(Plane3d::new(Vec3::Y, Vec2::splat(ground_size / 2.0)));
     let ground_material = materials.add(StandardMaterial {
         base_color: Color::srgb(0.4, 0.5, 0.4),
@@ -45,14 +45,6 @@ pub fn setup_scene(
         brightness: 300.0,
         affects_lightmapped_meshes: true,
     });
-
-    commands.spawn((
-        Camera3d::default(),
-        Transform::from_xyz(20.0, 15.0, 20.0).looking_at(Vec3::ZERO, Vec3::Y),
-        Visibility::default(),
-        MainCamera,
-        Name::new("MainCamera"),
-    ));
 }
 
 fn spawn_grid(
@@ -63,7 +55,7 @@ fn spawn_grid(
     spacing: f32,
 ) {
     let grid_material = materials.add(StandardMaterial {
-        base_color: Color::srgba(0.3, 0.3, 0.3, 0.5),
+        base_color: Color::srgba(0.3, 0.3, 0.3, 0.9),
         unlit: true,
         alpha_mode: AlphaMode::Blend,
         ..default()

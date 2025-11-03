@@ -68,6 +68,42 @@ impl Default for SceneState {
 }
 
 #[derive(Resource)]
+pub struct CameraController {
+    pub orbit_distance: f32,
+    pub orbit_angle_horizontal: f32,
+    pub orbit_angle_vertical: f32,
+    pub target: Vec3,
+    pub is_dragging: bool,
+    pub pan_speed: f32,
+    pub rotate_speed: f32,
+    pub zoom_speed: f32,
+    pub last_touches: Vec<(u64, Vec2)>,
+}
+
+impl Default for CameraController {
+    fn default() -> Self {
+        Self {
+            orbit_distance: 30.0,
+            orbit_angle_horizontal: 45.0_f32.to_radians(),
+            orbit_angle_vertical: 30.0_f32.to_radians(),
+            target: Vec3::ZERO,
+            is_dragging: false,
+            pan_speed: 0.05,
+            rotate_speed: 0.01,
+            zoom_speed: 2.0,
+            last_touches: Vec::new(),
+        }
+    }
+}
+
+#[derive(Resource, Default)]
+pub struct InteractionState {
+    pub hovered_entity: Option<Entity>,
+    pub selected_entity: Option<Entity>,
+    pub drag_start_pos: Option<Vec3>,
+}
+
+#[derive(Resource)]
 pub struct InputSettings {
     pub touch_sensitivity: f32,
     pub mouse_sensitivity: f32,

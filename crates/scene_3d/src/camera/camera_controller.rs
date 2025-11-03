@@ -1,9 +1,7 @@
-//! System to update camera transform and apply momentum
-
 use super::orbit_camera::OrbitCamera;
 use crate::input::navigation_command::NavigationState;
 use bevy::prelude::*;
-use log::info;
+use log::{info, warn};
 
 /// System to update camera transform from orbit parameters
 pub fn update_camera_transform(mut query: Query<(&OrbitCamera, &mut Transform), With<Camera>>) {
@@ -102,13 +100,25 @@ pub fn setup_orbit_camera(mut commands: Commands, existing_cameras: Query<Entity
             .entity(camera_entity)
             .insert(OrbitCamera::default());
         info!("Added OrbitCamera to existing camera");
-    } else {
+    } else if existing_cameras.is_empty() {
         // Otherwise spawn a new camera with orbit controls
         commands.spawn((
             Camera3d::default(),
-            Transform::from_xyz(15.0, 15.0, 15.0).looking_at(Vec3::ZERO, Vec3::Y),
             OrbitCamera::default(),
+            Camera {
+                order: 0,
+                ..default()
+            },
+            Transform::from_xyz(50.0, 30.0, 50.0).looking_at(Vec3::ZERO, Vec3::Y),
+            Name::new("OrbitCamera"),
         ));
         info!("Spawned new camera with OrbitCamera");
+    } else {
+        warn!("⚠ Multiple Camera3d entities detected! Using first one.");
+        if let Some(camera_entity) = existing_cameras.iter().next() {
+            commands
+                .entity(camera_entity)
+                .insert(OrbitCamera::default());
+        }
     }
 }

@@ -14,9 +14,11 @@ impl Plugin for Scene3dInputPlugin {
             .add_systems(
                 Update,
                 (
-                    // Input detection systems run first
-                    mouse_input::mouse_navigation_system,
-                    touch_input::touch_navigation_system,
+                    (
+                        // Input detection systems run first
+                        mouse_input::mouse_navigation_system,
+                        touch_input::touch_navigation_system,
+                    ),
                     // Then we apply navigation commands to camera
                     navigation_command::apply_navigation_commands,
                 )

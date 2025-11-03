@@ -1,6 +1,3 @@
-//! Mouse and trackpad input handling
-//! Supports: drag to orbit, middle-drag to pan, scroll to zoom, modifier keys
-
 use super::navigation_command::{NavigationCommand, NavigationState};
 use bevy::input::mouse::{MouseMotion, MouseScrollUnit, MouseWheel};
 use bevy::prelude::*;
@@ -9,7 +6,7 @@ use bevy::prelude::*;
 pub struct MouseState {
     is_orbiting: bool,
     is_panning: bool,
-    _last_position: Vec2,
+    is_zooming: bool,
 }
 
 pub fn mouse_navigation_system(
@@ -22,14 +19,7 @@ pub fn mouse_navigation_system(
     windows: Query<&Window>,
 ) {
     // Get window for cursor position
-    let window = match windows.single() {
-        Ok(window) => window,
-        Err(_) => return,
-    };
-
-    // ========================================================================
-    // MOUSE BUTTON STATE
-    // ========================================================================
+    let window = windows.single().ok();
 
     let left_pressed = mouse_button.pressed(MouseButton::Left);
     let middle_pressed = mouse_button.pressed(MouseButton::Middle);
@@ -38,20 +28,17 @@ pub fn mouse_navigation_system(
     // Check modifier keys
     let shift_pressed =
         keyboard.pressed(KeyCode::ShiftLeft) || keyboard.pressed(KeyCode::ShiftRight);
-    let _ctrl_pressed =
+    let ctrl_pressed =
         keyboard.pressed(KeyCode::ControlLeft) || keyboard.pressed(KeyCode::ControlRight);
-    let _alt_pressed = keyboard.pressed(KeyCode::AltLeft) || keyboard.pressed(KeyCode::AltRight);
+    let alt_pressed = keyboard.pressed(KeyCode::AltLeft) || keyboard.pressed(KeyCode::AltRight);
 
-    // Determine navigation mode based on buttons + modifiers
-    // CAD-style: Left = orbit, Middle = pan, Shift+Left = pan
-    let should_orbit = left_pressed && !shift_pressed && !middle_pressed;
-    let should_pan = middle_pressed || (left_pressed && shift_pressed) || right_pressed;
-
-    mouse_state.is_orbiting = should_orbit;
-    mouse_state.is_panning = should_pan;
+    mouse_state.is_orbiting =
+        left_pressed && !shift_pressed && !ctrl_pressed && !middle_pressed && !right_pressed;
+    mouse_state.is_panning = middle_pressed || (left_pressed && shift_pressed);
+    mouse_state.is_zooming = right_pressed || (left_pressed && ctrl_pressed);
 
     // ========================================================================
-    // MOUSE MOTION (Orbit / Pan)
+    // MOUSE MOTION (Orbit / Pan / Zoom)
     // ========================================================================
 
     let mut total_delta = Vec2::ZERO;
@@ -64,6 +51,13 @@ pub fn mouse_navigation_system(
             nav_state.add_command(NavigationCommand::Orbit { delta: total_delta });
         } else if mouse_state.is_panning {
             nav_state.add_command(NavigationCommand::Pan { delta: total_delta });
+        } else if mouse_state.is_zooming {
+            let zoom_delta = -total_delta.y * 0.01; // 
+            let zoom_factor = 1.0 - zoom_delta;
+
+            nav_state.add_command(NavigationCommand::Zoom {
+                factor: zoom_factor,
+            });
         }
     }
 
@@ -81,12 +75,18 @@ pub fn mouse_navigation_system(
             // Zoom factor: positive = zoom in, negative = zoom out
             let zoom_factor = 1.0 - zoom_delta;
 
-            // If we have cursor position, zoom toward cursor
-            if let Some(cursor_pos) = window.cursor_position() {
-                nav_state.add_command(NavigationCommand::ZoomToPoint {
-                    factor: zoom_factor,
-                    screen_point: cursor_pos,
-                });
+            if let Some(window) = window {
+                // If we have cursor position, zoom toward cursor
+                if let Some(cursor_pos) = window.cursor_position() {
+                    nav_state.add_command(NavigationCommand::ZoomToPoint {
+                        factor: zoom_factor,
+                        screen_point: cursor_pos,
+                    });
+                } else {
+                    nav_state.add_command(NavigationCommand::Zoom {
+                        factor: zoom_factor,
+                    });
+                }
             } else {
                 nav_state.add_command(NavigationCommand::Zoom {
                     factor: zoom_factor,
