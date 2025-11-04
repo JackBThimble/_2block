@@ -4075,6 +4075,7 @@ name = "scene_3d"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_egui",
  "crane_core",
  "env_logger",
  "log",

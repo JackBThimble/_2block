@@ -10,6 +10,7 @@ pub struct MouseState {
 }
 
 pub fn mouse_navigation_system(
+    mut egui_contexts: bevy_egui::EguiContexts,
     mut mouse_state: Local<MouseState>,
     mouse_button: Res<ButtonInput<MouseButton>>,
     keyboard: Res<ButtonInput<KeyCode>>,
@@ -20,6 +21,15 @@ pub fn mouse_navigation_system(
 ) {
     // Get window for cursor position
     let window = windows.single().ok();
+
+    let ctx = match egui_contexts.ctx_mut() {
+        Ok(ctx) => ctx,
+        Err(_) => return,
+    };
+
+    if ctx.wants_pointer_input() || ctx.is_pointer_over_area() {
+        return;
+    }
 
     let left_pressed = mouse_button.pressed(MouseButton::Left);
     let middle_pressed = mouse_button.pressed(MouseButton::Middle);

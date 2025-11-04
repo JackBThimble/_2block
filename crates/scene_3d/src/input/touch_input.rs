@@ -4,12 +4,22 @@ use bevy::input::touch::Touches;
 use bevy::prelude::*;
 
 pub fn touch_navigation_system(
+    mut egui_contexts: bevy_egui::EguiContexts,
     touches: Res<Touches>,
     mut gesture_state: ResMut<GestureState>,
     mut nav_state: ResMut<NavigationState>,
     time: Res<Time>,
 ) {
     let current_time = time.elapsed_secs();
+
+    let ctx = match egui_contexts.ctx_mut() {
+        Ok(ctx) => ctx,
+        Err(_) => return,
+    };
+
+    if ctx.wants_pointer_input() || ctx.is_pointer_over_area() {
+        return;
+    }
 
     // Update gesture recognizer
     if let Some(gesture) = gesture_state.update(&touches, current_time) {

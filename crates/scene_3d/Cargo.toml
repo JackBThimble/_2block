@@ -14,6 +14,7 @@ bevy = { workspace = true, default-features = false, features = [
 ] }
 # avian3d = { workspace = true }
 crane_core = { path = "../crane_core" }
+bevy_egui = { workspace = true }
 nalgebra = { workspace = true }
 log = { workspace = true }
 env_logger = { workspace = true }
