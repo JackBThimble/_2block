@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 724a42fd2bb8a79ce68808617259138e686068df3c9dfc0c56cabae79716daa6 # shrinks to axis = Vec3 { x: 0.0, y: 0.0, z: -1.0 }, angle = 1.8316181236811797
